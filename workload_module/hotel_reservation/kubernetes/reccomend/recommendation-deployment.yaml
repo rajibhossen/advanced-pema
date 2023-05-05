@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.22.0 (955b78124)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: recommendation
+  name: recommendation
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: recommendation
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.22.0 (955b78124)
+        linkerd.io/inject: enabled
+      creationTimestamp: null
+      labels:
+        io.kompose.service: recommendation
+    spec:
+      containers:
+        - command:
+            - recommendation
+          image: igorrudyk1/hotelreservation:latest
+          name: hotel-reserv-recommendation
+          ports:
+            - containerPort: 8085
+          resources:
+            requests:
+              cpu: 2000m
+            limits:
+              cpu: 2000m
+              memory: '3000Mi'
+      restartPolicy: Always
+status: {}
